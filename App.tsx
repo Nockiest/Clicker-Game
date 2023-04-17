@@ -16,10 +16,14 @@ export default function App() {
 }
 
 //načítej nepřátele postupně;
-// dej jim border,
-// ukazuj jejich zbývající životy
-//dovol jim se hýbat i po x coordinátu
+//dovol jim se hýbat i po y coordinátu
+//zpomal je při kliknutí
+// doplňuj náboje
+//zobrazuj náboje
+// dovol střílení jen když máš náboje
+// přidej do hry věž
 
 
+//naformátuj settings bar
 // zyšuj wave number stisknutím tlačítka
 //přidej death animaci

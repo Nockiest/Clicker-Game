@@ -6,7 +6,7 @@ import gameParameteres from "../game/gameParameteres";
 import {logAtInterval} from "../utils/utils";
 let consoleCalls = 0;
 
-export default function Battelground(props) {
+export default function BattelGround(props) {
   const handleEnemyKilled = (money) => {
     // ...
   };
@@ -19,8 +19,8 @@ export default function Battelground(props) {
   const rect = canvas.getBoundingClientRect();
   const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
   const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-  const clickedX = e.clientX /*- rect.left*/ - scrollX;
-  const clickedY = e.clientY /*- rect.top*/ - scrollY;
+  const clickedX = e.clientX - rect.left- scrollX;
+  const clickedY = e.clientY - rect.top - scrollY;
   
   setPlayerBullets(prevBullets => prevBullets - 1);
   setEnemies(prevEnemies => {
