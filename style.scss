@@ -1,0 +1,129 @@
+$bg-color: lightgray;
+$canvas-width: 1300px;
+$settings-width: 1300px;
+
+$bg-color: lightgray;
+$canvas-width: 1300px;
+$settings-width: 30%;
+
+#gameContainer {
+  height: 100vh;
+  margin: 0px ;
+  border: solid 2px orange;
+  display: flex;
+  flex-direction: column;
+}
+
+#battleground {
+  flex: 1;
+  //height: 100%;
+  background-color: white;
+  border: solid brown 2px;
+}
+
+#side-bar {
+  flex: 1;
+  width: 70%;
+  background-color: $bg-color;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.settings-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.settings-col {
+  background-color: lightblue;
+  flex: 1;
+  margin: 0px 5px;
+  height: 100px;
+}
+
+.info-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.info-col {
+  width: 49%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0px 5px;
+}
+
+.info-col > div {
+  height: calc(50% - 5px);
+  background-color: lightgreen;
+  margin-bottom: 10px;
+}
+
+.buy-row {
+  display: flex
+}
+
+.buy-col {
+  width: 100%;
+  background-color: lightpink;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  margin: 0.3em;
+}
+
+.buy-col .buy-row {
+  height: 25%;
+  display: flex;
+  flex: 1;
+  margin: 0px 5px;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#next-wave-button {
+  background-color: red;
+  color: white;
+  border-radius: 10px;
+  width: 80%;
+  height: 90%;
+}
+
+
+/*@media (min-width: 1000px) {
+  body {
+    display: flex;
+    justify-content: center;
+  }
+  #game-field {
+    //width: $canvas-width;
+    height: 100vh;
+    background-color: rgb(243, 142, 10);
+    float: left;
+    border:solid yellow 2px;
+  }
+
+  #side-bar {
+    width: min(#{$settings-width}, calc(100% - #{$canvas-width}));
+    height: 100vh;
+    background-color: $bg-color;
+    float: right;
+  }
+}*/
+ 
+
+
