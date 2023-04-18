@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import '../..//style.scss';
 import Enemy from "./Enemy";
 import enemiesParameteres from "../game/enemyParameters";
 import gameParameteres from "../game/gameParameteres";
-import {logAtInterval} from "../utils/utils";
+import {logAtInterval,updateStateVariable,drawText } from "../utils/utils"
+import { GameContext } from '../../App';
 let consoleCalls = 0;
 
 export default function BattelGround(props) {
@@ -13,7 +14,7 @@ export default function BattelGround(props) {
   const canvasRef = React.useRef(null);
   const [enemies, setEnemies] = React.useState([]);
   const [waveNumber, setWaveNumber] = React.useState(10);
-  const [playerBullets, setPlayerBullets] = React.useState(gameParameteres.bullets)
+  const { playerBullets, setPlayerBulletsNumber } = useContext(GameContext);
  // console.log(playerBullets)
  const handleCanvasClick = (e) => {
   const rect = canvas.getBoundingClientRect();
@@ -22,17 +23,20 @@ export default function BattelGround(props) {
   const clickedX = e.clientX - rect.left- scrollX;
   const clickedY = e.clientY - rect.top - scrollY;
   
-  setPlayerBullets(prevBullets => prevBullets - 1);
+  setPlayerBulletsNumber(prevBullets => {
+    if (prevBullets > 0) {
+      return prevBullets - 1;
+    } else {
+      console.log("No more bullets!");
+      return prevBullets;
+    }
+  });
+  
   setEnemies(prevEnemies => {
     return prevEnemies.map(enemy => {
-      console.log(clickedX,clickedY,enemy.x,enemy.y, rect.left, rect.top)
-        console.log(clickedX >= enemy.x , clickedX <= enemy.x + enemy.size ,
-          clickedY >= enemy.y ,clickedY <= enemy.y + enemy.size)
       if (clickedX >= enemy.x && clickedX <= enemy.x + enemy.size &&
           clickedY >= enemy.y && clickedY <= enemy.y + enemy.size) {
-            
         const updatedEnemy = { ...enemy, hitPoints: enemy.hitPoints - 1 };
-        console.log(updatedEnemy)
         if (updatedEnemy.hitPoints <= 0) {
           handleEnemyKilled(updatedEnemy.moneyReward);
           return null;
@@ -69,11 +73,10 @@ export default function BattelGround(props) {
       ctx.strokeRect(enemy.x, enemy.y, enemy.size, enemy.size); // Draw the border
       
       // Render hitpoints number in the middle of the box
-      ctx.fillStyle = 'white';
-      ctx.font = '16px Arial';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(enemy.hitPoints, enemy.x + enemy.size/2, enemy.y + enemy.size/2);
+      drawText({ctx, fillStyle: 'white', fontSize: 16, fontFamily: 'Arial',  textAlign: 'center', 
+     textBaseline: 'middle',  text: enemy.hitPoints, x: enemy.x + enemy.size/2, y: enemy.y + enemy.size/2,
+      });
+      
     });
   }, [enemies]);
 
@@ -82,12 +85,10 @@ export default function BattelGround(props) {
       setEnemies(prevEnemies => {
         return prevEnemies.map(enemy => {
           const updatedEnemy = { ...enemy, x: enemy.x + enemy.Xspeed };
-          if (updatedEnemy.x - updatedEnemy.size > props.width) {
-            console.log("life lost");
+          if (updatedEnemy.x - updatedEnemy.size > props.width) {   
+            console.log("life lost", gameParameteres.remainingLives--)
             return null; // return null to remove enemy from array
           }
-   // consoleCalls = 
-    logAtInterval(prevEnemies, consoleCalls, 100)
           return updatedEnemy;
         }).filter(enemy => enemy !== null); // filter out null values to update array
       });

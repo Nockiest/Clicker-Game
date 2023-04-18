@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import '../..//style.scss';
 import BattelGround from "./BattelGround";
 import gameParameteres from "../game/gameParameteres";
 import '../../style.scss';
-
+import { GameContext } from '../../App';
 
 function GameLayout() {
+  const { playerBullets, setPlayerBulletsNumber } = useContext(GameContext);
   let battelGroundHeight = 400;
   let battelGroundWidth = 1300;
   let layoutStyles = {
@@ -17,20 +18,11 @@ function GameLayout() {
     display: 'block',
     border: 'brown 2px solid',
   };
-  let sideBarStyles = {
-   /* height: '400px',
-    margin: 'auto 0px',
-    allign: "center",
-    padding: "20px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center",*/
-  }
+  
   return (
     <span style={layoutStyles}>
       <BattelGround style={battlegroundStyles} height={battelGroundHeight} width={battelGroundWidth}/>
-      <div id="side-bar" style={sideBarStyles}>
+      <div id="side-bar">
   {/* First row */}
   {<div className="settings-row">
     <div className="settings-col"></div>
