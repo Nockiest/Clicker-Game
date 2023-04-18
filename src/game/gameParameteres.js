@@ -17,6 +17,7 @@ let gameParameteres = {
       wave["blue"] = numBlue;
       wave["green"] = numGreen;
       wave["yellow"] = numYellow;
+      wave["boss"] = 1;
       wavesArr.push(wave);
     }
     return wavesArr;

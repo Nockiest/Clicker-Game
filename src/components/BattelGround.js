@@ -51,7 +51,7 @@ export default function BattelGround(props) {
       const enemyParameters = enemiesParameteres[`${color}Enemy`];
       return Array.from({ length: count }, () => ({
         ...enemyParameters,
-        x: enemyParameters.startX,
+        x: Math.floor(Math.random()*500*(-1)),
         y: Math.min(props.height-enemyParameters.size,Math.floor(Math.random() * props.height)),
       }));
     });
@@ -81,7 +81,7 @@ export default function BattelGround(props) {
     const interval = setInterval(() => {
       setEnemies(prevEnemies => {
         return prevEnemies.map(enemy => {
-          const updatedEnemy = { ...enemy, x: enemy.x /*+ enemy.speed*/ };
+          const updatedEnemy = { ...enemy, x: enemy.x + enemy.Xspeed };
           if (updatedEnemy.x - updatedEnemy.size > props.width) {
             console.log("life lost");
             return null; // return null to remove enemy from array
