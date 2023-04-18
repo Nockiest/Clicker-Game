@@ -1,15 +1,25 @@
-import React, { useState, useContext } from 'react';
+import  { useState, useContext } from 'react';
+import React from "react";
 import './style.scss';
-import GameLayout from "./src/components/GameLayout"
-import gameParameteres from "./src/game/gameParameteres"
+import GameLayout from "./src/components/GameLayout";
+import gameParameteres from "./src/game/gameParameteres";
 
-const GameContext = React.createContext();
+//const GameContext = React.createContext();
 
 export default function App() {
   const [playerBullets, setPlayerBulletsNumber] = useState(gameParameteres.bullets);
 
   const changePlayerBulletsNumber = (ammount) => {
-    setPlayerBulletsNumber(prevAmmout => prevAmmout + ammount)
+    setPlayerBulletsNumber(prevBullets => {
+      console.log(prevBullets)
+      const newBullets = prevBullets + ammount
+      if (newBullets>0) {
+        return newBullets;
+      } else{
+        console.log("No more bullets!");
+        return 0;
+      }
+    })
   }  
 
   const handleEnemyKilled = (money) => {
@@ -23,15 +33,14 @@ export default function App() {
   };
 
   return (
-    <GameContext.Provider value={gameData}>
-      <GameLayout />
-    </GameContext.Provider>
+    //<GameContext.Provider value={gameData}>
+      <GameLayout gameData={gameData}/>
+    //</GameContext.Provider>
   );
 }
 
 //dovol jim se hýbat i po y coordinátu
 //zpomal je při kliknutí
-// doplňuj náboje
 //zobrazuj náboje
 // dovol střílení jen když máš náboje
 // přidej do hry věž

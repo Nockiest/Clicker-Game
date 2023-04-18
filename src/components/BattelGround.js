@@ -4,17 +4,18 @@ import Enemy from "./Enemy";
 import enemiesParameteres from "../game/enemyParameters";
 import gameParameteres from "../game/gameParameteres";
 import {logAtInterval,updateStateVariable,drawText } from "../utils/utils"
-import { GameContext } from '../../App';
+//import { GameContext } from '../../App';
 let consoleCalls = 0;
 
 export default function BattelGround(props) {
+   
   const handleEnemyKilled = (money) => {
     // ...
   };
   const canvasRef = React.useRef(null);
   const [enemies, setEnemies] = React.useState([]);
   const [waveNumber, setWaveNumber] = React.useState(10);
-  const { playerBullets, setPlayerBulletsNumber } = useContext(GameContext);
+  //const { playerBullets, setPlayerBulletsNumber } = useContext(GameContext);
  // console.log(playerBullets)
  const handleCanvasClick = (e) => {
   const rect = canvas.getBoundingClientRect();
@@ -23,16 +24,10 @@ export default function BattelGround(props) {
   const clickedX = e.clientX - rect.left- scrollX;
   const clickedY = e.clientY - rect.top - scrollY;
   
-  setPlayerBulletsNumber(prevBullets => {
-    if (prevBullets > 0) {
-      return prevBullets - 1;
-    } else {
-      console.log("No more bullets!");
-      return prevBullets;
-    }
-  });
+  props.gameData.changePlayerBulletsNumber(-1);
   
   setEnemies(prevEnemies => {
+    if(props.gameData.playerBullets <= 0) {return prevEnemies}
     return prevEnemies.map(enemy => {
       if (clickedX >= enemy.x && clickedX <= enemy.x + enemy.size &&
           clickedY >= enemy.y && clickedY <= enemy.y + enemy.size) {
@@ -86,7 +81,7 @@ export default function BattelGround(props) {
         return prevEnemies.map(enemy => {
           const updatedEnemy = { ...enemy, x: enemy.x + enemy.Xspeed };
           if (updatedEnemy.x - updatedEnemy.size > props.width) {   
-            console.log("life lost", gameParameteres.remainingLives--)
+         //   console.log("life lost", gameParameteres.remainingLives--)
             return null; // return null to remove enemy from array
           }
           return updatedEnemy;

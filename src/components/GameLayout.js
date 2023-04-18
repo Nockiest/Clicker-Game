@@ -3,10 +3,10 @@ import '../..//style.scss';
 import BattelGround from "./BattelGround";
 import gameParameteres from "../game/gameParameteres";
 import '../../style.scss';
-import { GameContext } from '../../App';
+//import { GameContext } from '../../App';
 
-function GameLayout() {
-  const { playerBullets, setPlayerBulletsNumber } = useContext(GameContext);
+function GameLayout(props) {
+ // const { playerBullets, setPlayerBulletsNumber } = useContext(GameContext);
   let battelGroundHeight = 400;
   let battelGroundWidth = 1300;
   let layoutStyles = {
@@ -21,11 +21,11 @@ function GameLayout() {
   
   return (
     <span style={layoutStyles}>
-      <BattelGround style={battlegroundStyles} height={battelGroundHeight} width={battelGroundWidth}/>
-      <div id="side-bar">
+      <BattelGround style={battlegroundStyles} height={battelGroundHeight} width={battelGroundWidth} gameData={props.gameData}/>
+      <div id="side-bar" onClick={() => props.gameData.changePlayerBulletsNumber(1)}>
   {/* First row */}
   {<div className="settings-row">
-    <div className="settings-col"></div>
+    <div className="settings-col">{/*props.gameData.playerBullets*/}</div>
     <div className="settings-col"></div>
   </div>}
   
