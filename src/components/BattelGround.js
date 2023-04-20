@@ -3,7 +3,7 @@ import '../..//style.scss';
 import Enemy from "./Enemy";
 import enemiesParameteres from "../game/enemyParameters";
 import gameParameteres from "../game/gameParameteres";
-import {logAtInterval,updateStateVariable,drawText } from "../utils/utils"
+import {logAtInterval,updateStateVariable,drawText,simulateBounce } from "../utils/utils"
 //import { GameContext } from '../../App';
 let consoleCalls = 0;
 
@@ -14,9 +14,8 @@ export default function BattelGround(props) {
   };
   const canvasRef = React.useRef(null);
   const [enemies, setEnemies] = React.useState([]);
-  const [waveNumber, setWaveNumber] = React.useState(10);
-  //const { playerBullets, setPlayerBulletsNumber } = useContext(GameContext);
- // console.log(playerBullets)
+  const [waveNumber, setWaveNumber] = React.useState(20);
+
  const handleCanvasClick = (e) => {
   const rect = canvas.getBoundingClientRect();
   const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
@@ -52,6 +51,7 @@ export default function BattelGround(props) {
         ...enemyParameters,
         x: Math.floor(Math.random()*500*(-1)),
         y: Math.min(props.height-enemyParameters.size,Math.floor(Math.random() * props.height)),
+        speedModifier: 2,
       }));
     });
     setEnemies(waveEnemies);
@@ -79,9 +79,13 @@ export default function BattelGround(props) {
     const interval = setInterval(() => {
       setEnemies(prevEnemies => {
         return prevEnemies.map(enemy => {
-          const updatedEnemy = { ...enemy, x: enemy.x + enemy.Xspeed };
+          const Ymovement = simulateBounce(enemy.y, enemy.YSpeed,enemy.speedModifier, 0, props.height-enemy.size )//newzpos,speedModifier
+          consoleCalls =logAtInterval(Ymovement, consoleCalls, 100)
+          //consoleCalls =logAtInterval(enemy, consoleCalls, 101)
+          enemy.speedModifier =Ymovement[1]
+          const updatedEnemy = { ...enemy, x: enemy.x + enemy.Xspeed*Math.abs(enemy.speedModifier), y: Ymovement[0], YSpeed: enemy.YSpeed , speedModifier:enemy.speedModifier };
           if (updatedEnemy.x - updatedEnemy.size > props.width) {   
-         //   console.log("life lost", gameParameteres.remainingLives--)
+            console.log("life lost", gameParameteres.remainingLives--)
             return null; // return null to remove enemy from array
           }
           return updatedEnemy;

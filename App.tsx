@@ -39,7 +39,6 @@ export default function App() {
   );
 }
 
-//dovol jim se hýbat i po y coordinátu
 //zpomal je při kliknutí
 //zobrazuj náboje
 // dovol střílení jen když máš náboje

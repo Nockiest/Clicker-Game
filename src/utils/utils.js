@@ -1,4 +1,4 @@
-  function logAtInterval(message, count, interval) {
+  /*consoleCalls=*/function logAtInterval(message, count, interval) {
   const updatedCount = count + 1;
   if (updatedCount % (interval) === 0) {
     console.log(message);
@@ -22,4 +22,15 @@ function drawText({ctx,fillStyle,fontSize,fontFamily,textAlign,
   ctx.fillText(text, x, y);
 }
 
-export {logAtInterval,updateStateVariable,drawText }
+function simulateBounce(parameter, speed, speedModifier, upperBoundary, lowerBoundary) {
+  //console.log(parameter, speed, upperBoundary, lowerBoundary)
+  let newYpos = parameter + speed * speedModifier;
+  let newSpeedModifier = speedModifier;
+  if (newYpos < upperBoundary || newYpos > lowerBoundary) {
+    newYpos = parameter - speed * speedModifier;
+    newSpeedModifier = -speedModifier;
+  }
+  return [newYpos, newSpeedModifier];
+}
+
+export {logAtInterval,updateStateVariable,drawText,simulateBounce }

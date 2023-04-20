@@ -9,7 +9,7 @@ let gameParameteres = {
     const wavesArr = [];
     for (let i = 1; i <= 40; i++) {
       let wave = {};
-      let numRed = Math.floor(i / 2);
+      let numRed =Math.floor(i / 2);
       let numBlue = Math.floor(i / 5);
       let numGreen = Math.floor(i / 10);
       let numYellow = Math.floor(i / 15);

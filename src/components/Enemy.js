@@ -12,6 +12,8 @@ class Enemy extends Component {
       size: props.size,
       money: props.money
     };
+    this.move = this.move.bind(this)
+    this.takeDamage = this.takeDamage.bind(this)
   }
 
   // method to handle the enemy movement
@@ -49,7 +51,7 @@ class Enemy extends Component {
           backgroundColor: this.state.color
         }}
       >
-        <span>{this.state.hitPoints}</span>
+        <span onClick={this.takeDamage(1)}>{this.state.hitPoints}</span>
       </div>
     );
   }
