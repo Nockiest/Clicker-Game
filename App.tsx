@@ -39,9 +39,10 @@ export default function App() {
   );
 }
 
+// zapisuj informace do game stats sekce
 //zpomal je při kliknutí
 //zobrazuj náboje
-// dovol střílení jen když máš náboje
+ 
 // přidej do hry věž
 // zmenšuj čtverce, jak jim ubývají životy
 

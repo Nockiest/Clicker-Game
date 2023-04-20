@@ -2,7 +2,9 @@ import React, { useState, useContext } from 'react';
 import '../..//style.scss';
 import BattelGround from "./BattelGround";
 import gameParameteres from "../game/gameParameteres";
+import StatsBar from "./StatsBar"
 import '../../style.scss';
+import TowerPurchaseGrid from "./TowerPurchaseGrid"
 //import { GameContext } from '../../App';
 
 function GameLayout(props) {
@@ -25,9 +27,13 @@ function GameLayout(props) {
         <button onClick={() => props.gameData.changePlayerBulletsNumber(1)}>Reload</button>
       </div>
       <div id="side-bar"  >
-       <div className="column">a</div>
-       <div className="column">b</div>
+      
+      <StatsBar stats={['Bullets:', 'Current damage:', 'Money:', 'Wave:', 'Enemies:', 'Killed:']} />
+
+      <TowerPurchaseGrid />
+
        <div className="column">c</div>
+       
        <div className="column">
          <button onClick={() => props.gameData.changePlayerBulletsNumber(1)}>Next Wave</button>
       </div>
