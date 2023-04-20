@@ -5,30 +5,113 @@ $settings-width: 30%;
 #gameContainer {
   height: 570px;
   width: $game-width;
-  margin: 0px ;
-  border: solid 2px orange;
   display: flex;
   flex-direction: column;
 }
 
 #battleground {
-  flex: 1;
   background-color: white;
-  border: solid brown 2px;
+  height: 170px;
 }
 
-#side-bar {
-  flex: 1;
-  width: 100%;
-  height: 170px;
+#lowerBarContainer {
+  width: $game-width;
+  height: 200px;
   background-color: $bg-color;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
 }
+#reload-area{
+  flex: 2;
+  width: 100%;
+  button{
+    height:100%;
+    width: 100%;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    border: none;
 
+    &:hover {
+      background-color: darken(#333, 10%);
+    }
+  }
+}
+#side-bar {
+  flex: 5;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap:nowrap;
+  align-items: center;
+  padding: 0 20px;
+  width: $game-width;  
+  background-color: $bg-color;
+   
+  
+  .column {
+    width: calc((100% - 60px) / 4);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    background-color: yellow;
+    /*
+    &:first-child {
+    //  margin-right: 20px;
+    }
+    
+    &:last-child {
+    /*button{
+    height:100%;
+    width: 100%;
+    padding: 25px;
+    border-radius: 5px;
+    background-color: rgb(247, 102, 102);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: darken(#333, 10%);
+    }
+  }
+   }*/
+   
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      //margin-bottom: 10px;
+    }
+    
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+      text-align: center;
+      //margin-bottom: 20px;
+    }
+    
+  /*  button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 5px;
+    //  cursor: pointer;
+      
+      &:hover {
+        background-color: #555;
+      }
+    }*/
+  }
+}
+/*
 .settings-row {
   display: flex;
   flex-direction: column;
@@ -100,7 +183,7 @@ $settings-width: 30%;
   height: 80%;
   width: 90%;
   }
-
+*/
  
  
 
