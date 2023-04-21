@@ -74,7 +74,7 @@ export default function App() {
   return <GameLayout gameData={gameData} setGameState={setGameState} />;
 }
 
-// zapisuj informace do game stats sekce
+// přepiš setState aby vytvořil funkci ze stringu a zavolal ji
 //zpomal je při kliknutí
 // přidej do hry věž
 // zmenšuj čtverce, jak jim ubývají životy
