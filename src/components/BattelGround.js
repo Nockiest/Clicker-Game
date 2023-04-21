@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import '../..//style.scss';
 import Enemy from "./Enemy";
 import enemiesParameteres from "../game/enemyParameters";
-import gameParameteres from "../game/gameParameteres";
+import GameParameteres from "../game/GameParameteres";
 import {logAtInterval,updateStateVariable,drawText,simulateBounce } from "../utils/utils"
 //import { GameContext } from '../../App';
 let consoleCalls = 0;
@@ -44,7 +44,7 @@ export default function BattelGround(props) {
 };
 
   React.useEffect(() => {
-    const currentWave = gameParameteres.waves[waveNumber];
+    const currentWave = GameParameteres.waves[waveNumber];
     const waveEnemies = Object.entries(currentWave).flatMap(([color, count]) => {
       const enemyParameters = enemiesParameteres[`${color}Enemy`];
       return Array.from({ length: count }, () => ({
@@ -85,7 +85,7 @@ export default function BattelGround(props) {
           enemy.speedModifier =Ymovement[1]
           const updatedEnemy = { ...enemy, x: enemy.x + enemy.Xspeed*Math.abs(enemy.speedModifier), y: Ymovement[0], YSpeed: enemy.YSpeed , speedModifier:enemy.speedModifier };
           if (updatedEnemy.x - updatedEnemy.size > props.width) {   
-            console.log("life lost", gameParameteres.remainingLives--)
+            console.log("life lost", GameParameteres.remainingLives--)
             return null; // return null to remove enemy from array
           }
           return updatedEnemy;

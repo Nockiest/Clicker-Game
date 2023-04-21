@@ -2,12 +2,13 @@ import  { useState, useContext } from 'react';
 import React from "react";
 import './style.scss';
 import GameLayout from "./src/components/GameLayout";
-import gameParameteres from "./src/game/gameParameteres";
+import GameParameteres from "./src/game/GameParameteres";
 
 //const GameContext = React.createContext();
 
 export default function App() {
-  const [playerBullets, setPlayerBulletsNumber] = useState(gameParameteres.bullets);
+  console.log(GameParameteres)
+  const [playerBullets, setPlayerBulletsNumber] = useState(GameParameteres.bullets);
 
   const changePlayerBulletsNumber = (ammount) => {
     setPlayerBulletsNumber(prevBullets => {

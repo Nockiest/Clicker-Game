@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import '../..//style.scss';
 import BattelGround from "./BattelGround";
-import gameParameteres from "../game/gameParameteres";
+import GameParameteres from "../game/GameParameteres";
 import StatsBar from "./StatsBar"
 import '../../style.scss';
 import TowerPurchaseGrid from "./TowerPurchaseGrid"
