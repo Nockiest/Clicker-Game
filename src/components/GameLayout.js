@@ -18,24 +18,33 @@ function GameLayout(props) {
     height: `${battelGroundHeight}px`,
     overflowX: 'hidden',
   };
-  
+ 
   return (
     <div style={layoutStyles}>
-      <BattelGround style={battlegroundStyles} height={battelGroundHeight} width={battelGroundWidth} gameData={props.gameData}/>
+      <BattelGround style={battlegroundStyles} height={battelGroundHeight} width={battelGroundWidth} gameData={props.gameData} setGameState={props.setGameState}/>
       <div id="lowerBarContainer"> 
       <div id="reload-area"  >
-        <button onClick={() => props.gameData.changePlayerBulletsNumber(1)}>Reload</button>
+        <button onClick={() => props.setGameState("bullets",1)}>Reload</button>
       </div>
       <div id="side-bar"  >
       
-      <StatsBar stats={['Bullets:', 'Current damage:', 'Money:', 'Wave:', 'Enemies:', 'Killed:']} />
+      <StatsBar 
+        stats={[
+          `Bullets: ${props.gameData.bullets}/${props.gameData.clipSize}`,
+          `Current damage: ${props.gameData.damagePerClick}`,
+          `Money: ${props.gameData.money}`,
+          `Wave: ${props.gameData.waveNumber}`,
+          `Enemies: `,
+          `Killed: ${props.gameData.score}`,
+        ]}
+      />
 
       <TowerPurchaseGrid />
 
        <div className="column">c</div>
        
        <div className="column">
-         <button onClick={() => props.gameData.changePlayerBulletsNumber(1)}>Next Wave</button>
+         <button onClick={() => props.setGameState("waveNumber", 1)}>Next Wave</button>
       </div>
       </div>
       </div>
@@ -44,6 +53,8 @@ function GameLayout(props) {
 }
 
 export default GameLayout;
+
+/*${props.gameData.waves[props.gameData.waveNumber].red + props.gameData.waves[props.gameData.waveNumber].blue + props.gameData.waves[props.gameData.waveNumber].green + props.gameData.waves[props.gameData.waveNumber].yellow}`*/
 
 /* {/* First row *//*}*/
 /*{<div className="settings-row">

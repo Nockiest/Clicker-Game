@@ -23,7 +23,7 @@ export default function BattelGround(props) {
   const clickedX = e.clientX - rect.left- scrollX;
   const clickedY = e.clientY - rect.top - scrollY;
   
-  props.gameData.changePlayerBulletsNumber(-1);
+  props.setGameState("bullets",-1);
   
   setEnemies(prevEnemies => {
     if(props.gameData.playerBullets <= 0) {return prevEnemies}
@@ -80,7 +80,7 @@ export default function BattelGround(props) {
       setEnemies(prevEnemies => {
         return prevEnemies.map(enemy => {
           const Ymovement = simulateBounce(enemy.y, enemy.YSpeed,enemy.speedModifier, 0, props.height-enemy.size )//newzpos,speedModifier
-          consoleCalls =logAtInterval(Ymovement, consoleCalls, 100)
+      //    consoleCalls =logAtInterval(Ymovement, consoleCalls, 100)
           //consoleCalls =logAtInterval(enemy, consoleCalls, 101)
           enemy.speedModifier =Ymovement[1]
           const updatedEnemy = { ...enemy, x: enemy.x + enemy.Xspeed*Math.abs(enemy.speedModifier), y: Ymovement[0], YSpeed: enemy.YSpeed , speedModifier:enemy.speedModifier };

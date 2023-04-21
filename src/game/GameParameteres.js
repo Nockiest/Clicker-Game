@@ -1,9 +1,10 @@
-/*let GameParameteres = {
+let GameParameteres = {
   remainingLives: 10,
   waveNumber: 0,
   score: 20,
   money: 100,
   bullets: 5,
+  clipSize: 5,
   damagePerClick: 1,
   waves: (() => {
     const wavesArr = [];
@@ -25,8 +26,8 @@
 };
 
 console.log(GameParameteres.waves);
-export default GameParameteres;*/
-
+export default GameParameteres;
+/*
 import React from "react";
 
 class GameParameteres extends React.Component {
@@ -79,4 +80,4 @@ class GameParameteres extends React.Component {
   }
 }
 
-export default GameParameteres;
+export default GameParameteres;*/
