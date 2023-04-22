@@ -111,7 +111,7 @@ React.useEffect(() => {
         }).filter(enemy => enemy !== null); // filter out null values to update array
       });
   
-    }, 100); // move
+    }, 10); // move
   
     return () => {
       clearInterval(interval);
