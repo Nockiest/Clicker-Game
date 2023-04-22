@@ -31,10 +31,10 @@ const handleCanvasClick = (e) => {
     return prevEnemies.map(enemy => {
       const [enemyCenterX, enemyCenterY] = [enemy.x + enemy.size/2, enemy.y + enemy.size/2];
       if (isPositionInRange([clickedX, clickedY], [enemyCenterX, enemyCenterY], enemy.size/2+10)) {
-        const updatedEnemy = { ...enemy, hitPoints: enemy.hitPoints - 1 , size: enemy.size-enemy.size*0.3/enemy.hitPoints, slowedDown: 50};
+        const updatedEnemy = { ...enemy, hitPoints: enemy.hitPoints - props.gameData.damagePerClick , size: enemy.size-enemy.size*0.3/enemy.hitPoints, slowedDown: 50};
         console.log(enemy.slowedDown)
         if (updatedEnemy.hitPoints <= 0) {
-          handleEnemyKilled(updatedEnemy.moneyReward);
+          props.setGameState("money", enemy.moneyReward);
           return null;
         }
         return updatedEnemy;
@@ -53,7 +53,7 @@ React.useEffect(() => {
       ...enemyParameters,
       x: Math.floor(Math.random()*500*(-1)),
       y: Math.min(props.height-enemyParameters.size,Math.floor(Math.random() * props.height)),
-      speedModifier: 2,
+      speedModifier: 1,
       slwoedDown: false,
     }));
   });

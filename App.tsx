@@ -44,12 +44,13 @@ export default function App() {
         break;
       case "clipSize":
         setClipSize(prevValue => prevValue  +value);
-          break;
-      
+          break;     
       default:
         console.warn(`Invalid key: ${key}`);
     }
   };
+  
+  
 
   const handleEnemyKilled = (money) => {
     console.log(`You earned ${money} coins!`);
@@ -57,16 +58,16 @@ export default function App() {
 
   const gameData = {
     remainingLives,
-    setRemainingLives,
+    //setRemainingLives,
     waveNumber,
     setWaveNumber,
     score,
     setScore,
     money,
-    setMoney,
+    //setMoney,
     bullets,
     damagePerClick,
-    setDamagePerClick,
+    //setDamagePerClick,
     handleEnemyKilled,
     clipSize,
   };
@@ -74,9 +75,8 @@ export default function App() {
   return <GameLayout gameData={gameData} setGameState={setGameState} />;
 }
 
-// přepiš setState aby vytvořil funkci ze stringu a zavolal ji
+ 
 // přidej do hry věž
 // přidej death animaci 
-// přidej upgrady poškozní
-// počítej peníze
-// 
+// přidej upgrady poškození
+// přepiš setState aby vytvořil funkci ze stringu a zavolal ji

@@ -145,6 +145,83 @@ $settings-width: 30%;
     
   }
 }
+/****Styling for the tower grid******///
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+
+  &:hover .description {
+    display: flex;
+  }
+
+  .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    .field {
+      position: relative;
+      width: calc((100% / #{numCols}) - 10px);
+      height: calc((100% / #{numRows}) - 10px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid black;
+      cursor: pointer;
+
+      .name {
+        margin-top: 2px;
+      }
+
+      .buy-container {
+        margin-bottom: 2px;
+
+        .buy {
+          padding: 5px;
+          background-color: white;
+          border: 1px solid black;
+          border-radius: 5px;
+
+          &.hover {
+            background-color: lightblue;
+          }
+        }
+      }
+
+      .description {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background-color: lightblue;
+        color: white;
+        font-size: 13px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      &:hover .description {
+        display: flex;
+      }
+    }
+  }
+}
 /*
 .settings-row {
   display: flex;
