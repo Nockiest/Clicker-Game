@@ -44,7 +44,10 @@ function GameLayout(props) {
        <div className="column">c</div>
        
        <div className="column">
-         <button onClick={() => props.setGameState("waveNumber", 1)}>Next Wave</button>
+       <button onClick={() => {
+          props.setGameState("waveNumber", 1);
+          props.setGameState("bullets",props.gameData.clipSize - props.gameData.bullets);
+        }}>Next Wave</button>
       </div>
       </div>
       </div>
@@ -53,7 +56,7 @@ function GameLayout(props) {
 }
 
 export default GameLayout;
-
+/*props.setGameState("bullets",-1)*/
 /*${props.gameData.waves[props.gameData.waveNumber].red + props.gameData.waves[props.gameData.waveNumber].blue + props.gameData.waves[props.gameData.waveNumber].green + props.gameData.waves[props.gameData.waveNumber].yellow}`*/
 
 /* {/* First row *//*}*/

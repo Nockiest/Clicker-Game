@@ -22,6 +22,16 @@ function drawText({ctx,fillStyle,fontSize,fontFamily,textAlign,
   ctx.fillText(text, x, y);
 }
 
+function isPositionInRange(position, square, offset) {
+  const [row, col] = position;
+  const [sqRow, sqCol] = square;
+
+  const rowDiff = Math.abs(sqRow - row);
+  const colDiff = Math.abs(sqCol - col);
+
+  return (rowDiff <= offset && colDiff <= offset);
+}
+
 function simulateBounce(parameter, speed, speedModifier, upperBoundary, lowerBoundary) {
   //console.log(parameter, speed, upperBoundary, lowerBoundary)
   let newYpos = parameter + speed * speedModifier;
@@ -33,4 +43,4 @@ function simulateBounce(parameter, speed, speedModifier, upperBoundary, lowerBou
   return [newYpos, newSpeedModifier];
 }
 
-export {logAtInterval,updateStateVariable,drawText,simulateBounce }
+export {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange }

@@ -3,7 +3,7 @@ import '../..//style.scss';
 import Enemy from "./Enemy";
 import enemiesParameteres from "../game/enemyParameters";
 import GameParameteres from "../game/GameParameteres";
-import {logAtInterval,updateStateVariable,drawText,simulateBounce } from "../utils/utils"
+import {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange } from "../utils/utils"
 //import { GameContext } from '../../App';
 let consoleCalls = 0;
 
@@ -14,23 +14,25 @@ export default function BattelGround(props) {
   };
   const canvasRef = React.useRef(null);
   const [enemies, setEnemies] = React.useState([]);
-  const [waveNumber, setWaveNumber] = React.useState(20);
 
- const handleCanvasClick = (e) => {
+const handleCanvasClick = (e) => {
   const rect = canvas.getBoundingClientRect();
   const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
   const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-  const clickedX = e.clientX - rect.left- scrollX;
+  const clickedX = e.clientX - rect.left - scrollX;
   const clickedY = e.clientY - rect.top - scrollY;
   
-  props.setGameState("bullets",-1);
+  props.setGameState("bullets", -1);
   
   setEnemies(prevEnemies => {
-    if(props.gameData.playerBullets <= 0) {return prevEnemies}
+    if (props.gameData.bullets <= 0) {
+      return prevEnemies;
+    }
     return prevEnemies.map(enemy => {
-      if (clickedX >= enemy.x && clickedX <= enemy.x + enemy.size &&
-          clickedY >= enemy.y && clickedY <= enemy.y + enemy.size) {
-        const updatedEnemy = { ...enemy, hitPoints: enemy.hitPoints - 1 };
+      const [enemyCenterX, enemyCenterY] = [enemy.x + enemy.size/2, enemy.y + enemy.size/2];
+      if (isPositionInRange([clickedX, clickedY], [enemyCenterX, enemyCenterY], enemy.size/2+10)) {
+        const updatedEnemy = { ...enemy, hitPoints: enemy.hitPoints - 1 , size: enemy.size-enemy.size*0.3/enemy.hitPoints, slowedDown: 50};
+        console.log(enemy.slowedDown)
         if (updatedEnemy.hitPoints <= 0) {
           handleEnemyKilled(updatedEnemy.moneyReward);
           return null;
@@ -43,19 +45,21 @@ export default function BattelGround(props) {
   });
 };
 
-  React.useEffect(() => {
-    const currentWave = GameParameteres.waves[waveNumber];
-    const waveEnemies = Object.entries(currentWave).flatMap(([color, count]) => {
-      const enemyParameters = enemiesParameteres[`${color}Enemy`];
-      return Array.from({ length: count }, () => ({
-        ...enemyParameters,
-        x: Math.floor(Math.random()*500*(-1)),
-        y: Math.min(props.height-enemyParameters.size,Math.floor(Math.random() * props.height)),
-        speedModifier: 2,
-      }));
-    });
-    setEnemies(waveEnemies);
-  }, [waveNumber]); // set the enemies
+React.useEffect(() => {
+  const currentWave = GameParameteres.waves[props.gameData.waveNumber];
+  const waveEnemies = Object.entries(currentWave).flatMap(([color, count]) => {
+    const enemyParameters = enemiesParameteres[`${color}Enemy`];
+    return Array.from({ length: count }, () => ({
+      ...enemyParameters,
+      x: Math.floor(Math.random()*500*(-1)),
+      y: Math.min(props.height-enemyParameters.size,Math.floor(Math.random() * props.height)),
+      speedModifier: 2,
+      slwoedDown: false,
+    }));
+  });
+
+  setEnemies(prevEnemies => [...prevEnemies, ...waveEnemies]);
+}, [props.gameData.waveNumber]); // set the enemies
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
@@ -79,25 +83,40 @@ export default function BattelGround(props) {
     const interval = setInterval(() => {
       setEnemies(prevEnemies => {
         return prevEnemies.map(enemy => {
-          const Ymovement = simulateBounce(enemy.y, enemy.YSpeed,enemy.speedModifier, 0, props.height-enemy.size )//newzpos,speedModifier
-      //    consoleCalls =logAtInterval(Ymovement, consoleCalls, 100)
-          //consoleCalls =logAtInterval(enemy, consoleCalls, 101)
-          enemy.speedModifier =Ymovement[1]
-          const updatedEnemy = { ...enemy, x: enemy.x + enemy.Xspeed*Math.abs(enemy.speedModifier), y: Ymovement[0], YSpeed: enemy.YSpeed , speedModifier:enemy.speedModifier };
-          if (updatedEnemy.x - updatedEnemy.size > props.width) {   
-            console.log("life lost", GameParameteres.remainingLives--)
+          let slowness = 5
+          if(enemy.slowedDown){
+            enemy.speedModifier = enemy.speedModifier/slowness
+          }
+        //  console.log(enemy.speedModifier)
+          const Ymovement = simulateBounce(enemy.y, enemy.YSpeed, enemy.speedModifier, 0, props.height - enemy.size); //newzpos,speedModifier
+          let modifiedXspeed = enemy.Xspeed * Math.abs(enemy.speedModifier)
+          enemy.slowedDown?enemy.speedModifier =  Ymovement[1]*slowness:  enemy.speedModifier =  Ymovement[1]
+          //console.log(enemy.speedModifier)
+  
+          if (enemy.slowedDown !== false && enemy.slowedDown !== 0 && enemy.slowedDown !== undefined) {
+            enemy.slowedDown -= 1;
+            //console.log(enemy.slowedDown)
+          } else if (enemy.slowedDown === 0) {
+            enemy.slowedDown = false;
+          }
+
+          const updatedEnemy = { ...enemy, x: enemy.x + modifiedXspeed, y: Ymovement[0], YSpeed: enemy.YSpeed };
+  
+          if (updatedEnemy.x - updatedEnemy.size > props.width) {
+            console.log("life lost", GameParameteres.remainingLives--);
             return null; // return null to remove enemy from array
           }
+     
           return updatedEnemy;
         }).filter(enemy => enemy !== null); // filter out null values to update array
       });
- 
-    }, 10); // move
+  
+    }, 100); // move
   
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, []); 
 
   return (
     <canvas ref={canvasRef} width={props.width} height={props.height} onClick={handleCanvasClick} id="canvas"></canvas>

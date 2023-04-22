@@ -32,7 +32,7 @@ export default function App() {
       case "bullets":
         setBullets(prevBullets => {
           const newBullets = prevBullets + value
-          if (newBullets>=0 && newBullets < clipSize) {
+          if (newBullets>=0 && newBullets <= clipSize) {
             return newBullets;
           } else{
             return prevBullets;
@@ -77,19 +77,4 @@ export default function App() {
 // přepiš setState aby vytvořil funkci ze stringu a zavolal ji
 //zpomal je při kliknutí
 // přidej do hry věž
-// zmenšuj čtverce, jak jim ubývají životy
-// zyšuj wave number stisknutím tlačítka
 //přidej death animaci
-
-
-  /*const changeBullets = (amount) => {
-    setBullets((prevBullets) => {
-      const newBullets = prevBullets + amount;
-      if (newBullets > 0) {
-        return newBullets;
-      } else {
-        console.log("No more bullets!");
-        return 0;
-      }
-    });
-  };*/
