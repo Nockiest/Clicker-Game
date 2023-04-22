@@ -75,6 +75,8 @@ export default function App() {
 }
 
 // přepiš setState aby vytvořil funkci ze stringu a zavolal ji
-//zpomal je při kliknutí
 // přidej do hry věž
-//přidej death animaci
+// přidej death animaci 
+// přidej upgrady poškozní
+// počítej peníze
+// 
