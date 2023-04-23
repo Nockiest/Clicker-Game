@@ -8,12 +8,13 @@ import {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRa
 let consoleCalls = 0;
 
 export default function BattelGround(props) {
-   
-  const handleEnemyKilled = (money) => {
-    // ...
-  };
+  
   const canvasRef = React.useRef(null);
   const [enemies, setEnemies] = React.useState([]);
+
+  const handleEnemyKilled = (money) => {
+    props.setGameState("money", money);
+  };
 
 const handleCanvasClick = (e) => {
   const rect = canvas.getBoundingClientRect();
@@ -24,17 +25,25 @@ const handleCanvasClick = (e) => {
   
   props.setGameState("bullets", -1);
   
+  const ctx = canvas.getContext('2d');
+  ctx.beginPath();
+  ctx.strokeStyle = 'lightgreen';
+  ctx.fillStyle = 'darkgreen';
+  ctx.rect(clickedX - props.gameData.clickRadius, clickedY - props.gameData.clickRadius, props.gameData.clickRadius * 2, props.gameData.clickRadius * 2);
+  ctx.stroke();
+  ctx.fill();
+  
   setEnemies(prevEnemies => {
     if (props.gameData.bullets <= 0) {
       return prevEnemies;
     }
     return prevEnemies.map(enemy => {
       const [enemyCenterX, enemyCenterY] = [enemy.x + enemy.size/2, enemy.y + enemy.size/2];
-      if (isPositionInRange([clickedX, clickedY], [enemyCenterX, enemyCenterY], enemy.size/2+10)) {
+      if (isPositionInRange([clickedX, clickedY], [enemyCenterX, enemyCenterY], enemy.size/2+props.gameData.clickRadius)) {
         const updatedEnemy = { ...enemy, hitPoints: enemy.hitPoints - props.gameData.damagePerClick , size: enemy.size-enemy.size*0.3/enemy.hitPoints, slowedDown: 50};
-        console.log(enemy.slowedDown)
+        //console.log(enemy.slowedDown)
         if (updatedEnemy.hitPoints <= 0) {
-          props.setGameState("money", enemy.moneyReward);
+          handleEnemyKilled(enemy.moneyReward)
           return null;
         }
         return updatedEnemy;
@@ -43,6 +52,7 @@ const handleCanvasClick = (e) => {
       }
     }).filter(enemy => enemy !== null);
   });
+ 
 };
 
 React.useEffect(() => {
@@ -87,15 +97,15 @@ React.useEffect(() => {
           if(enemy.slowedDown){
             enemy.speedModifier = enemy.speedModifier/slowness
           }
-        //  console.log(enemy.speedModifier)
+
           const Ymovement = simulateBounce(enemy.y, enemy.YSpeed, enemy.speedModifier, 0, props.height - enemy.size); //newzpos,speedModifier
           let modifiedXspeed = enemy.Xspeed * Math.abs(enemy.speedModifier)
           enemy.slowedDown?enemy.speedModifier =  Ymovement[1]*slowness:  enemy.speedModifier =  Ymovement[1]
-          //console.log(enemy.speedModifier)
+          
   
           if (enemy.slowedDown !== false && enemy.slowedDown !== 0 && enemy.slowedDown !== undefined) {
             enemy.slowedDown -= 1;
-            //console.log(enemy.slowedDown)
+          
           } else if (enemy.slowedDown === 0) {
             enemy.slowedDown = false;
           }

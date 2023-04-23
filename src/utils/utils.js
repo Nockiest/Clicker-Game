@@ -43,4 +43,8 @@ function simulateBounce(parameter, speed, speedModifier, upperBoundary, lowerBou
   return [newYpos, newSpeedModifier];
 }
 
-export {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange }
+function changeIsNegative(prevValue, change) {
+  return prevValue + change < 0;
+}
+
+export {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange,changeIsNegative }

@@ -1,9 +1,14 @@
 import  { useState, useContext } from 'react';
 import React from "react";
+import ReactDOM from 'react-dom';
 import './style.scss';
 import GameLayout from "./src/components/GameLayout";
 import GameParameteres from "./src/game/GameParameteres";
-
+//napsat novou proměnou do gameparmeteres
+// udělat use state 
+//připsat case pro nový use state
+// napsat nový state do gameData
+ 
 //const GameContext = React.createContext();
 
 export default function App() {
@@ -13,7 +18,10 @@ export default function App() {
   const [money, setMoney] = useState(GameParameteres.money);
   const [bullets, setBullets] = useState(GameParameteres.bullets);
   const [damagePerClick, setDamagePerClick] = useState(GameParameteres.damagePerClick);
+  const [clickRadius, setClickRadius] = useState(GameParameteres.clickRadius);
   const [clipSize, setClipSize] = useState(GameParameteres.clipSize)
+
+   
   
   const setGameState = (key, value) => {
     switch(key) {
@@ -27,8 +35,19 @@ export default function App() {
         setScore(prevValue => prevValue  +value);
         break;
       case "money":
-        setMoney(prevValue => prevValue  +value);
+        setMoney(prevValue => {
+          const newMoney = prevValue + value;
+          return newMoney < 0 ? 0 : newMoney;
+        });
         break;
+      case "damagePerClick":
+        setDamagePerClick(prevValue => prevValue  +value);
+        break;
+      case "clipSize":
+        setClipSize(prevValue => prevValue  +value);
+          break;     
+      case "clickRadius":
+        setClickRadius(prevValue => prevValue  +value);
       case "bullets":
         setBullets(prevBullets => {
           const newBullets = prevBullets + value
@@ -39,12 +58,6 @@ export default function App() {
           }
         });
         break;
-      case "damagePerClick":
-        setDamagePerClick(prevValue => prevValue  +value);
-        break;
-      case "clipSize":
-        setClipSize(prevValue => prevValue  +value);
-          break;     
       default:
         console.warn(`Invalid key: ${key}`);
     }
@@ -58,25 +71,26 @@ export default function App() {
 
   const gameData = {
     remainingLives,
-    //setRemainingLives,
     waveNumber,
     setWaveNumber,
     score,
     setScore,
     money,
-    //setMoney,
     bullets,
     damagePerClick,
-    //setDamagePerClick,
     handleEnemyKilled,
     clipSize,
+    clickRadius
   };
 
   return <GameLayout gameData={gameData} setGameState={setGameState} />;
 }
-
  
+// napiš funkci pro kreslení čtverců
+// napiš funkci, která bude vykreslovat určitý component po vymezenou dobu
 // přidej do hry věž
+// přidej obrázek věže když ji pokládáš do hry
 // přidej death animaci 
-// přidej upgrady poškození
+//zobraz svůj click radius na canvas
+
 // přepiš setState aby vytvořil funkci ze stringu a zavolal ji
