@@ -3,11 +3,13 @@ import '../..//style.scss';
 import Enemy from "./Enemy";
 import enemiesParameteres from "../game/enemyParameters";
 import GameParameteres from "../game/GameParameteres";
-import {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange } from "../utils/utils"
+import {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange,drawElement } from "../utils/utils"
 //import { GameContext } from '../../App';
 let consoleCalls = 0;
 
 export default function BattelGround(props) {
+
+
   
   const canvasRef = React.useRef(null);
   const [enemies, setEnemies] = React.useState([]);
@@ -46,6 +48,12 @@ const handleCanvasClick = (e) => {
   });
  
 };
+/*React.useEffect(()=>{
+  const canvas = canvasRef.current;
+  const ctx = canvas.getContext('2d');
+  drawElement({color: "blue", x:150, y: 150, size: 50, speedX: 2, speedY: 2,}, 200, ctx, 1)
+}, [])*/
+ 
 
 React.useEffect(() => {
   const currentWave = GameParameteres.waves[props.gameData.waveNumber];

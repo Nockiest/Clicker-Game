@@ -75,4 +75,4 @@ function changeIsNegative(prevValue, change) {
   return prevValue + change < 0;
 }
 
-export {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange,changeIsNegative }
+export {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange,changeIsNegative,drawElement }
