@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange,changeIsNegative } from "../utils/utils"
 
-function Field({ name, cost, description, onClick, setGameState, selectMovedTower, gameData}) {
+function Field(props) {
+  const { name, cost, description, onClick, setGameState, selectMovedTower, gameData, color,tower } = props;
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseEnter = () => setIsHovering(true);
   const handleMouseLeave = () => setIsHovering(false);
+  const data = {name, cost, description, color, tower }
 
   const handleClick = () => {
     if (onClick) {
-      
-
       const [variable, number] = onClick;
       if(changeIsNegative(gameData.money, -cost)){return}
       setGameState(variable, number);
@@ -18,7 +18,7 @@ function Field({ name, cost, description, onClick, setGameState, selectMovedTowe
     } else {
       console.log("This field doesn't have an onClick function.");
     }
-    selectMovedTower(name);
+    selectMovedTower(data);
   };
 
   return (

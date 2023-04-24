@@ -10,6 +10,7 @@ import TowerPurchaseGrid from "./TowerPurchaseGrid"
 function GameLayout(props) {
   const [selectedTower, setSelectedTower] = useState(null);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [showSquare, setShowSquare] = useState(false);
   let battelGroundHeight = 400;
   let battelGroundWidth = 1300;
   let layoutStyles = {
@@ -22,34 +23,15 @@ function GameLayout(props) {
   };
 
   const selectMovedTower = (value) => {
-    console.log(value);
     setSelectedTower(value);
-    console.log(selectedTower)
   }
 
-  function selectTower(cell) {
-    // Get the src attribute of the img element in the cell
-    //const imgSrc = cell.childNodes[1].getAttribute("src");
-  
-
-    const cursor = document.createElement("p");
-    cursor.innerHTML = value;
-    cursor.id = "cursor";
-    document.body.appendChild(cursor);
-    cursor.style.position = "absolute";
-    cursor.style.left = -20 + event.clientX + window.scrollX + 'px';
-    cursor.style.top = -20 + event.clientY + window.scrollY + 'px';
-    cursor.style.pointerEvents = "none";
-    document.onmousemove = e => { 
-      cursor.style.left = -20 +  e.pageX  + 'px';
-      cursor.style.top = -20 + e.pageY + 'px';
-      cursor.style.pointerEvents = "none";
-    };
-    targetGridCell(cellId).innerHTML = ""
-}
 useEffect(() => {
   const handleMouseMove = (event) => {
-    setCursorPosition({ x: event.clientX, y: event.clientY });
+    const x = event.clientX - window.scrollX;
+    const y = event.clientY - window.scrollY;
+    setCursorPosition({ x, y });
+    setShowSquare(true);
   };
   document.addEventListener("mousemove", handleMouseMove);
   return () => {
@@ -59,7 +41,8 @@ useEffect(() => {
 
 const data = {
   cursorPosition,
-  selectedTower
+  selectedTower,
+  showSquare
 }
 
   return (

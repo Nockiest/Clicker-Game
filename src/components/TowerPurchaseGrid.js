@@ -43,6 +43,8 @@ function TowerPurchaseGrid(props) {
           cost={GameParameteres.fields[fieldIndex]?.cost}
           description={GameParameteres.fields[fieldIndex]?.description}
           onClick={GameParameteres.fields[fieldIndex]?.onClick}
+          color={GameParameteres.fields[fieldIndex]?.color}
+          tower={GameParameteres.fields[fieldIndex]?.tower}
           setGameState={props.setGameState}
           gameData={props.gameData}
           selectMovedTower={props.selectMovedTower}

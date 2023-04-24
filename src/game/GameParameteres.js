@@ -30,82 +30,95 @@ let GameParameteres = {
       cost: 100,
       description: "Increases the size of the tower's clip by 10%",
       onClick: ["clipSize", 1],
-      color: "blue"
+      color: "blue",
+      tower: false
     },
     {
       name: "Damage++",
       cost: 200,
       description: "Increases the tower's damage output by 25%",
       onClick: [" damagePerClick", 1],
-      color: "red"
+      color: "red",
+      tower: false
     },
     {
       name: "Reload++",
       cost: 150,
       description: "Reduces the tower's reload time by 20%",
       onClick: ["reload", 1],
-      color: "green"
+      color: "green",
+      tower: false
     },
     {
       name: "Click radius++",
       cost: 300,
       description: "Increases the tower's damage radius by 20%",
       onClick: ["clickRadius", 1],
-      color: "purple"
+      color: "purple",
+      tower: false
     },
     {
       name: "Watch tower",
       cost: 500,
       description: "A basic tower with decent range and damage",
-      color: "orange"
+      color: "orange",
+      tower: true
     },
     {
       name: "Sniper tower",
       cost: 800,
       description: "A long-range tower that deals massive damage",
-      color: "teal"
+      color: "teal",
+      tower: true
     },
     {
       name: "Gatling gun tower",
       cost: 600,
       description: "A rapid-fire tower with low damage but high rate of fire",
-      color: "pink"
+      color: "pink",
+      tower: true
     },
     {
       name: "Laser tower",
       cost: 1000,
       description: "A high-tech tower that deals continuous laser damage",
-      color: "yellow"
+      color: "yellow",
+      tower: true
     },
     {
       name: "Glue tower",
       cost: 400,
       description: "Slows down enemies with a sticky glue",
-      color: "lime"
+      color: "lime",
+      tower: true
     },
     {
       name: "Freeze tower",
       cost: 450,
       description: "Freezes enemies in their tracks",
-      color: "cyan"
+      color: "cyan",
+      tower: true
     },
     {
       name: "Plasma Tower",
       cost: 450,
       description: "Vaporizes Anything that comes to close",
-      color: "magenta"
+      color: "magenta",
+      tower: true
     },
     {
       name: "Fire Tower",
       cost: 450,
       description: "Scorches the ground around it",
-      color: "brown"
+      color: "brown",
+      tower: true
     },
     {
       name: "Spikes",
       cost: 450,
       description: "one use, damages an enemy who crosses it",
-      color: "grey"
+      color: "grey",
+      tower: false
     }
   ],
 };

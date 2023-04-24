@@ -25,23 +25,15 @@ const handleCanvasClick = (e) => {
   
   props.setGameState("bullets", -1);
   
-  const ctx = canvas.getContext('2d');
-  ctx.beginPath();
-  ctx.strokeStyle = 'lightgreen';
-  ctx.fillStyle = 'darkgreen';
-  ctx.rect(clickedX - props.gameData.clickRadius, clickedY - props.gameData.clickRadius, props.gameData.clickRadius * 2, props.gameData.clickRadius * 2);
-  ctx.stroke();
-  ctx.fill();
-  
   setEnemies(prevEnemies => {
     if (props.gameData.bullets <= 0) {
       return prevEnemies;
     }
     return prevEnemies.map(enemy => {
       const [enemyCenterX, enemyCenterY] = [enemy.x + enemy.size/2, enemy.y + enemy.size/2];
-      if (isPositionInRange([clickedX, clickedY], [enemyCenterX, enemyCenterY], enemy.size/2+props.gameData.clickRadius)) {
+      if (isPositionInRange([clickedX, clickedY], [enemyCenterX, enemyCenterY], enemy.size/2+props.gameData.clickRadius/2)) {
         const updatedEnemy = { ...enemy, hitPoints: enemy.hitPoints - props.gameData.damagePerClick , size: enemy.size-enemy.size*0.3/enemy.hitPoints, slowedDown: 50};
-        //console.log(enemy.slowedDown)
+      
         if (updatedEnemy.hitPoints <= 0) {
           handleEnemyKilled(enemy.moneyReward)
           return null;
@@ -71,23 +63,35 @@ React.useEffect(() => {
   setEnemies(prevEnemies => [...prevEnemies, ...waveEnemies]);
 }, [props.gameData.waveNumber]); // set the enemies
 
-  React.useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    enemies.forEach(enemy => {
-      ctx.fillStyle = enemy.color;
-      ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
-      ctx.strokeStyle = 'black'; // Set the border color to black
-      ctx.strokeRect(enemy.x, enemy.y, enemy.size, enemy.size); // Draw the border
-      
-      // Render hitpoints number in the middle of the box
-      drawText({ctx, fillStyle: 'white', fontSize: 16, fontFamily: 'Arial',  textAlign: 'center', 
-     textBaseline: 'middle',  text: enemy.hitPoints, x: enemy.x + enemy.size/2, y: enemy.y + enemy.size/2,
-      });
-      
+React.useEffect(() => {
+  const canvas = canvasRef.current;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  enemies.forEach(enemy => {
+    ctx.fillStyle = enemy.color;
+    ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
+    ctx.strokeStyle = 'black';
+    ctx.strokeRect(enemy.x, enemy.y, enemy.size, enemy.size);
+    drawText({ctx, fillStyle: 'white', fontSize: 16, fontFamily: 'Arial',  textAlign: 'center', 
+    textBaseline: 'middle',  text: enemy.hitPoints, x: enemy.x + enemy.size/2, y: enemy.y + enemy.size/2,
     });
-  }, [enemies]);
+  });
+
+    const cursorX = props.data.cursorPosition.x;
+    const cursorY = props.data.cursorPosition.y;
+    const size = 50;
+
+  if(props.data.selectedTower?.tower){
+    ctx.strokeStyle = props.data.selectedTower?.color;
+    ctx.fillStyle = props.data.selectedTower?.color;
+    ctx.fillRect(cursorX - size/2, cursorY - size/2, size, size);
+  } else {
+    ctx.strokeRect(cursorX - props.gameData.clickRadius/2, cursorY - props.gameData.clickRadius/2, props.gameData.clickRadius, props.gameData.clickRadius);
+  }
+     
+
+}, [enemies, props.data.cursorPosition]);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -113,7 +117,7 @@ React.useEffect(() => {
           const updatedEnemy = { ...enemy, x: enemy.x + modifiedXspeed, y: Ymovement[0], YSpeed: enemy.YSpeed };
   
           if (updatedEnemy.x - updatedEnemy.size > props.width) {
-            console.log("life lost", GameParameteres.remainingLives--);
+            props.setGameState("remainingLives", -1);
             return null; // return null to remove enemy from array
           }
      
