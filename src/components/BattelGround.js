@@ -62,18 +62,11 @@ const handleCanvasClick = (e) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     console.log(selectedTower)
-    setPlacedTowers(prevTowers => [...prevTowers, {selectedTower, x: clickedX-towerSize/2, y: clickedY-towerSize/2, size: towerSize, color:selectedTower.color }]);
-    console.log(placedTowers)
-   
-  
+    setPlacedTowers(prevTowers => [...prevTowers, { ...selectedTower, x: clickedX - towerSize/2, y: clickedY - towerSize/2, size: towerSize,   }]);
+    console.log(placedTowers)  
   }
  
 };
-/*React.useEffect(()=>{
-  const canvas = canvasRef.current;
-  const ctx = canvas.getContext('2d');
-  drawTemporaryElement({color: "blue", x:150, y: 150, size: 50, speedX: 2, speedY: 2,}, 200, ctx, 1)
-}, [])*/
 
 React.useEffect(() => {
   const currentWave = GameParameteres.waves[props.gameData.waveNumber];
@@ -110,8 +103,7 @@ React.useEffect(() => {
     ctx.fillStyle = tower.color;
     ctx.fillRect(tower.x, tower.y, tower.size, tower.size);
     ctx.strokeStyle = 'black';
-    ctx.strokeRect(tower.x, tower.y, tower.size, tower.size);
-     
+    ctx.strokeRect(tower.x, tower.y, tower.size, tower.size);   
     });
   
 
@@ -132,8 +124,8 @@ if(props.data.selectedTower?.tower){
 React.useEffect(() => {
   const canvas = canvasRef.current;
   const ctx = canvas.getContext('2d');
-    const cursorX = props.data.cursorPosition.x;
-    const cursorY = props.data.cursorPosition.y;
+  const cursorX = props.data.cursorPosition.x;
+  const cursorY = props.data.cursorPosition.y;
     
   if(props.data.selectedTower?.tower){
     ctx.strokeStyle = props.data.selectedTower?.color;

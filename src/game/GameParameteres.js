@@ -31,15 +31,21 @@ let GameParameteres = {
       description: "Increases the size of the tower's clip by 10%",
       onClick: ["clipSize", 1],
       color: "blue",
-      tower: false
+      tower: false,
+      hitpoints: 100,
+      damage: 10,
+      size: 10,
     },
     {
       name: "Damage++",
       cost: 200,
       description: "Increases the tower's damage output by 25%",
-      onClick: [" damagePerClick", 1],
+      onClick: ["damagePerClick", 1],
       color: "red",
-      tower: false
+      tower: false,
+      hitpoints: 120,
+      damage: 25,
+      size: 10,
     },
     {
       name: "Reload++",
@@ -47,7 +53,10 @@ let GameParameteres = {
       description: "Reduces the tower's reload time by 20%",
       onClick: ["reload", 1],
       color: "green",
-      tower: false
+      tower: false,
+      hitpoints: 80,
+      damage: 15,
+      size: 10,
     },
     {
       name: "Click radius++",
@@ -55,70 +64,100 @@ let GameParameteres = {
       description: "Increases the tower's damage radius by 20%",
       onClick: ["clickRadius", 1],
       color: "purple",
-      tower: false
+      tower: false,
+      hitpoints: 150,
+      damage: 20,
+      size: 10,
     },
     {
       name: "Watch tower",
       cost: 500,
       description: "A basic tower with decent range and damage",
       color: "orange",
-      tower: true
+      tower: true,
+      hitpoints: 200,
+      damage: 30,
+      size: 10,
     },
     {
       name: "Sniper tower",
       cost: 800,
       description: "A long-range tower that deals massive damage",
       color: "teal",
-      tower: true
+      tower: true,
+      hitpoints: 250,
+      damage: 50,
+      size: 10,
     },
     {
       name: "Gatling gun tower",
       cost: 600,
       description: "A rapid-fire tower with low damage but high rate of fire",
       color: "pink",
-      tower: true
+      tower: true,
+      hitpoints: 180,
+      damage: 5,
+      size: 10,
     },
     {
       name: "Laser tower",
       cost: 1000,
       description: "A high-tech tower that deals continuous laser damage",
       color: "yellow",
-      tower: true
+      tower: true,
+      hitpoints: 300,
+      damage: 40,
+      size: 10,
     },
     {
       name: "Glue tower",
       cost: 400,
       description: "Slows down enemies with a sticky glue",
       color: "lime",
-      tower: true
+      tower: true,
+      hitpoints: 300,
+      damage: 40,
+      size: 10,
     },
     {
       name: "Freeze tower",
       cost: 450,
       description: "Freezes enemies in their tracks",
       color: "cyan",
-      tower: true
+      tower: true,
+      hitpoints: 300,
+      damage: 40,
+      size: 10,
     },
     {
       name: "Plasma Tower",
       cost: 450,
       description: "Vaporizes Anything that comes to close",
       color: "magenta",
-      tower: true
+      tower: true,
+      hitpoints: 300,
+      damage: 40,
+      size: 10,
     },
     {
       name: "Fire Tower",
       cost: 450,
       description: "Scorches the ground around it",
       color: "brown",
-      tower: true
+      tower: true,
+      hitpoints: 300,
+      damage: 40,
+      size: 10,
     },
     {
       name: "Spikes",
       cost: 450,
       description: "one use, damages an enemy who crosses it",
       color: "grey",
-      tower: false
+      tower: false,
+      hitpoints: 1,
+      damage: 40,
+      size: 10,
     }
   ],
 };

@@ -6,7 +6,7 @@ let enemiesParameteres = {
     color: "red",
     moneyReward: 15,
     size: Math.random() * 20 + 40,
-    
+    damage: 10,
   },
   blueEnemy: {
     hitPoints: 10,
@@ -15,6 +15,7 @@ let enemiesParameteres = {
     color: "blue",
     moneyReward: 10,
     size: Math.random() * 20 + 70,
+    damage: 10,
   }, 
   yellowEnemy: {
     hitPoints: 20,
@@ -23,7 +24,7 @@ let enemiesParameteres = {
     color: "yellow",
     moneyReward: 20,
     size: Math.random() * 10 + 30,
-     
+    damage: 10,
   },
   greenEnemy: {
     hitPoints: 20,
@@ -32,6 +33,7 @@ let enemiesParameteres = {
     color: "green",
     moneyReward: 30,
     size: Math.random() * 10 + 30,
+    damage: 10,
   },
   bossEnemy:{
     hitPoints: 100,
@@ -40,6 +42,7 @@ let enemiesParameteres = {
     color: "black",
     moneyReward: 30,
     size: Math.random() * 100 + 30,
+    damage: 10,
   }
 };
 export default enemiesParameteres

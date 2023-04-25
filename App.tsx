@@ -58,10 +58,6 @@ export default function App() {
     console.log(key)
     setters[key](prevValue => prevValue + value);
   };
-  
-  
-  
-  
 
   const handleEnemyKilled = (money) => {
     console.log(`You earned ${money} coins!`);
@@ -84,9 +80,7 @@ export default function App() {
   return <GameLayout gameData={gameData} setGameState={setGameState} />;
 }
  
-// napiš funkci pro kreslení čtverců
-// napiš funkci, která bude vykreslovat určitý component po vymezenou dobu
-// přidej do hry věž
+
 // přidej obrázek věže když ji pokládáš do hry
 // přidej death animaci 
 //zobraz svůj click radius na canvas
