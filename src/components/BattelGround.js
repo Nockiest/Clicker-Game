@@ -3,7 +3,7 @@ import '../..//style.scss';
 import Enemy from "./Enemy";
 import enemiesParameteres from "../game/enemyParameters";
 import GameParameteres from "../game/GameParameteres";
-import {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange,drawElement } from "../utils/utils"
+import {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange,drawTemporaryElement, drawRectangle } from "../utils/utils"
 //import { GameContext } from '../../App';
 let consoleCalls = 0;
 
@@ -13,6 +13,9 @@ export default function BattelGround(props) {
   
   const canvasRef = React.useRef(null);
   const [enemies, setEnemies] = React.useState([]);
+  const [placedTowers, setPlacedTowers] = React.useState([])
+  const towerSize = 50;
+  const selectedTower = props.data.selectedTower
 
   const handleEnemyKilled = (money) => {
     props.setGameState("money", money);
@@ -24,8 +27,16 @@ const handleCanvasClick = (e) => {
   const scrollY = window.pageYOffset || document.documentElement.scrollTop;
   const clickedX = e.clientX - rect.left - scrollX;
   const clickedY = e.clientY - rect.top - scrollY;
-  
+  let clickOnEnemy = false;
   props.setGameState("bullets", -1);
+
+  enemies.forEach(enemy =>{ 
+    const [enemyCenterX, enemyCenterY] = [enemy.x + enemy.size/2, enemy.y + enemy.size/2];
+    if(isPositionInRange([clickedX, clickedY], [enemyCenterX, enemyCenterY], enemy.size/2 )){
+      clickOnEnemy = true 
+    }
+      
+  })  
   
   setEnemies(prevEnemies => {
     if (props.gameData.bullets <= 0) {
@@ -35,7 +46,7 @@ const handleCanvasClick = (e) => {
       const [enemyCenterX, enemyCenterY] = [enemy.x + enemy.size/2, enemy.y + enemy.size/2];
       if (isPositionInRange([clickedX, clickedY], [enemyCenterX, enemyCenterY], enemy.size/2+props.gameData.clickRadius/2)) {
         const updatedEnemy = { ...enemy, hitPoints: enemy.hitPoints - props.gameData.damagePerClick , size: enemy.size-enemy.size*0.3/enemy.hitPoints, slowedDown: 50};
-      
+        
         if (updatedEnemy.hitPoints <= 0) {
           handleEnemyKilled(enemy.moneyReward)
           return null;
@@ -46,14 +57,23 @@ const handleCanvasClick = (e) => {
       }
     }).filter(enemy => enemy !== null);
   });
+
+  if (!clickOnEnemy && selectedTower){
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    console.log(selectedTower)
+    setPlacedTowers(prevTowers => [...prevTowers, {selectedTower, x: clickedX-towerSize/2, y: clickedY-towerSize/2, size: towerSize, color:selectedTower.color }]);
+    console.log(placedTowers)
+   
+  
+  }
  
 };
 /*React.useEffect(()=>{
   const canvas = canvasRef.current;
   const ctx = canvas.getContext('2d');
-  drawElement({color: "blue", x:150, y: 150, size: 50, speedX: 2, speedY: 2,}, 200, ctx, 1)
+  drawTemporaryElement({color: "blue", x:150, y: 150, size: 50, speedX: 2, speedY: 2,}, 200, ctx, 1)
 }, [])*/
- 
 
 React.useEffect(() => {
   const currentWave = GameParameteres.waves[props.gameData.waveNumber];
@@ -86,20 +106,81 @@ React.useEffect(() => {
     });
   });
 
+  placedTowers.forEach(tower => {
+    ctx.fillStyle = tower.color;
+    ctx.fillRect(tower.x, tower.y, tower.size, tower.size);
+    ctx.strokeStyle = 'black';
+    ctx.strokeRect(tower.x, tower.y, tower.size, tower.size);
+     
+    });
+  
+
+  const cursorX = props.data.cursorPosition.x;
+  const cursorY = props.data.cursorPosition.y;
+  
+if(props.data.selectedTower?.tower){
+  ctx.strokeStyle = props.data.selectedTower?.color;
+  ctx.fillStyle = props.data.selectedTower?.color;
+  ctx.fillRect(cursorX - towerSize/2, cursorY - towerSize/2, towerSize, towerSize);
+} else {
+  ctx.strokeRect(cursorX - props.gameData.clickRadius/2, cursorY - props.gameData.clickRadius/2, props.gameData.clickRadius, props.gameData.clickRadius);
+}
+
+
+}, [enemies]);
+
+React.useEffect(() => {
+  const canvas = canvasRef.current;
+  const ctx = canvas.getContext('2d');
     const cursorX = props.data.cursorPosition.x;
     const cursorY = props.data.cursorPosition.y;
-    const size = 50;
-
+    
   if(props.data.selectedTower?.tower){
     ctx.strokeStyle = props.data.selectedTower?.color;
     ctx.fillStyle = props.data.selectedTower?.color;
-    ctx.fillRect(cursorX - size/2, cursorY - size/2, size, size);
+    ctx.fillRect(cursorX - towerSize/2, cursorY - towerSize/2, towerSize, towerSize);
   } else {
     ctx.strokeRect(cursorX - props.gameData.clickRadius/2, cursorY - props.gameData.clickRadius/2, props.gameData.clickRadius, props.gameData.clickRadius);
   }
      
 
-}, [enemies, props.data.cursorPosition]);
+}, [props.data.cursorPosition]);
+
+
+/*React.useEffect(() => {
+  const canvas = canvasRef.current;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const drawEnemies = () => {
+    enemies.forEach(enemy => {
+      ctx.fillStyle = enemy.color;
+      ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
+      ctx.strokeStyle = 'black';
+      ctx.strokeRect(enemy.x, enemy.y, enemy.size, enemy.size);
+      drawText({ctx, fillStyle: 'white', fontSize: 16, fontFamily: 'Arial',  textAlign: 'center', 
+        textBaseline: 'middle',  text: enemy.hitPoints, x: enemy.x + enemy.size/2, y: enemy.y + enemy.size/2,
+      });
+    });
+  }
+
+  const drawSquare = () => {
+    const cursorX = props.data.cursorPosition.x;
+    const cursorY = props.data.cursorPosition.y;
+
+    if(props.data.selectedTower?.tower){
+      ctx.strokeStyle = props.data.selectedTower?.color;
+      ctx.fillStyle = props.data.selectedTower?.color;
+      ctx.fillRect(cursorX - towerSize/2, cursorY - towerSize/2, towerSize, towerSize);
+    } else {
+      ctx.strokeRect(cursorX - props.gameData.clickRadius/2, cursorY - props.gameData.clickRadius/2, props.gameData.clickRadius, props.gameData.clickRadius);
+    }
+  }
+
+  drawEnemies();
+  drawSquare();
+
+}, [enemies, props.data.cursorPosition, props.data.selectedTower, props.gameData.clickRadius]);*/
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -116,7 +197,7 @@ React.useEffect(() => {
           
   
           if (enemy.slowedDown !== false && enemy.slowedDown !== 0 && enemy.slowedDown !== undefined) {
-            enemy.slowedDown -= 1;
+            enemy.slowedDown--;
           
           } else if (enemy.slowedDown === 0) {
             enemy.slowedDown = false;

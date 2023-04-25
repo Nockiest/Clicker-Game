@@ -37,7 +37,7 @@ useEffect(() => {
   return () => {
     document.removeEventListener("mousemove", handleMouseMove);
   };
-}, []);
+}, [1000]);
 
 const data = {
   cursorPosition,

@@ -21,9 +21,77 @@ export default function App() {
   const [clickRadius, setClickRadius] = useState(GameParameteres.clickRadius);
   const [clipSize, setClipSize] = useState(GameParameteres.clipSize)
 
-   
+  
+  // An object to store functions
+  const setters = {
+    bullets: setBullets,
+    clipSize: setClipSize,
+    clickRadius: setClickRadius,
+    damagePerClick: setDamagePerClick,
+    score: setScore,
+    waveNumber: setWaveNumber,
+    remainingLives: setRemainingLives,
+    money: setMoney,
+  }
   
   const setGameState = (key, value) => {
+    
+    if (typeof(setters[key]) !== 'function') {
+      console.warn(`Invalid key: ${key}`, typeof(setters[key]));
+      return;
+    }
+    if(key === "bullets"){
+     return setBullets(prevBullets => {
+        const newBullets = prevBullets + value
+        if (newBullets>=0 && newBullets <= clipSize) {
+          return newBullets;
+        } else{
+          return prevBullets;
+        }
+      })
+    } else if (key === "money"){
+      setMoney(prevValue => {
+        const newMoney = prevValue + value;
+        return newMoney < 0 ? 0 : newMoney;
+      });
+    }
+    console.log(key)
+    setters[key](prevValue => prevValue + value);
+  };
+  
+  
+  
+  
+
+  const handleEnemyKilled = (money) => {
+    console.log(`You earned ${money} coins!`);
+  };
+
+  const gameData = {
+    remainingLives,
+    waveNumber,
+    setWaveNumber,
+    score,
+    setScore,
+    money,
+    bullets,
+    damagePerClick,
+    handleEnemyKilled,
+    clipSize,
+    clickRadius
+  };
+
+  return <GameLayout gameData={gameData} setGameState={setGameState} />;
+}
+ 
+// napiš funkci pro kreslení čtverců
+// napiš funkci, která bude vykreslovat určitý component po vymezenou dobu
+// přidej do hry věž
+// přidej obrázek věže když ji pokládáš do hry
+// přidej death animaci 
+//zobraz svůj click radius na canvas
+
+/* const setGameState = (key, value) => {
     switch(key) {
       case "remainingLives":
         setRemainingLives(prevValue => prevValue  + value);
@@ -61,36 +129,4 @@ export default function App() {
       default:
         console.warn(`Invalid key: ${key}`);
     }
-  };
-  
-  
-
-  const handleEnemyKilled = (money) => {
-    console.log(`You earned ${money} coins!`);
-  };
-
-  const gameData = {
-    remainingLives,
-    waveNumber,
-    setWaveNumber,
-    score,
-    setScore,
-    money,
-    bullets,
-    damagePerClick,
-    handleEnemyKilled,
-    clipSize,
-    clickRadius
-  };
-
-  return <GameLayout gameData={gameData} setGameState={setGameState} />;
-}
- 
-// napiš funkci pro kreslení čtverců
-// napiš funkci, která bude vykreslovat určitý component po vymezenou dobu
-// přidej do hry věž
-// přidej obrázek věže když ji pokládáš do hry
-// přidej death animaci 
-//zobraz svůj click radius na canvas
-
-// přepiš setState aby vytvořil funkci ze stringu a zavolal ji
+  };*/

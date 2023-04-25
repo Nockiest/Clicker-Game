@@ -14,12 +14,13 @@ function updateStateVariable(stateVar, paramName, paramValue) {
 }
 function drawRectangle(ctx, options) {
   ctx.fillStyle = options.fillColor;
+  console.log(options)
   ctx.fillRect(options.x, options.y, options.size, options.size);
   ctx.strokeStyle = options.strokeColor;
   ctx.strokeRect(options.x, options.y, options.size, options.size);
 }
 
-function drawElement(element, duration, ctx, redrawFrequency) {
+function drawTemporaryElement(element, duration, ctx, redrawFrequency) {
   if (duration <= 0) {
     return; // stop drawing if duration is up
   }
@@ -75,4 +76,4 @@ function changeIsNegative(prevValue, change) {
   return prevValue + change < 0;
 }
 
-export {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange,changeIsNegative,drawElement }
+export {logAtInterval,updateStateVariable,drawText,simulateBounce,isPositionInRange,changeIsNegative,drawTemporaryElement, drawRectangle }
